@@ -42,7 +42,14 @@ adivinar_numero(): Función para gestionar el juego de adivinanza.
 const prompt = require('prompt-sync')() //Para usar prompt
 const listGames = [] //lista donde pondré las victorias y derrotas
 function verificar_numero(numero_verificar) {
-    
+    while(true){
+        if(isNaN(parseInt(numero_verificar))){ //verifica si es un numero
+            console.log("Valor no valido")
+            numero_verificar=prompt("ingresar un número de 1 a 100 ó 0 para rendirte ") //lo pide de nuevo
+        }else{
+            return numero_verificar; //devuelve el valor cuando sea número
+    }
+}
 }
 function juego(){ 
     let tryAgainFlag=true; //bandera general para repetir el juego
@@ -78,6 +85,7 @@ function adivinar_numero(realNumber) {
     while (flag) { //El ciclo principal de la función
         attempts++; // suma los intentos
         let userNumber=prompt("ingresar un número de 1 a 100 ó 0 para rendirte ") //ingresa los números en userNumber
+        userNumber=verificar_numero(userNumber)
         if (userNumber==0){
             break; //en caso de que se rinda con 0
         }
