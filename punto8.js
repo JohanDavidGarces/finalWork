@@ -69,23 +69,87 @@ function agregar_producto() {
 }
 
 function eliminar_producto() {
-    
+    let nombre = prompt("Ingrese el nombre del producto a eliminar");
+    let index = inventario.findIndex(invent =>
+        invent.nombre.toLowerCase() == nombre.toLowerCase())
+
+    if (index !== -1) {
+        inventario.splice(index, 1)
+        console.log("Producto eliminado")
+
+    } else {
+        console.log("Producto no encontrado")
+    }
+}
+
+function editar_producto() {
+    let nombre = prompt("Ingrese el nombre del producto a editar");
+    let index = inventario.findIndex(invent =>
+        invent.nombre.toLowerCase() === nombre.toLowerCase()
+    );
+    if (index !== -1) {
+        let nombre2 = prompt("Ingrese el nuevo nombre del producto");
+        inventario[index].nombre = nombre2;
+        console.log("Producto actualizado");
+    } else {
+        console.log("Producto no encontrado");
+    }
 }
 
 function listar_productos() {
-    if(inventario.length===0){
+    if (inventario.length === 0) {
         console.log("No hay productos registrados.");
         return;
     }
     console.log("Lista de productos: ");
     inventario.forEach(invent => {
-        console.log(`${invent.nombre}, Precio: ${invent.precio}, Cantidad: ${invent.cantidad}`);
+        console.log(`Producto: ${invent.nombre}, Precio: ${invent.precio}, Cantidad: ${invent.cantidad}`);
     })
 }
 
-band=true;
+function comprar_producto() {
+    let nombre = prompt("Ingrese el nombre del producto que desea comprar");
+    let index = inventario.findIndex(invent =>
+        invent.nombre.toLowerCase() === nombre.toLowerCase()
+    );
+    if (index !== -1) {
+        let compra = parseInt(prompt("Ingrese la cantidad que desea comprar"));
+        if (isNaN(compra) || compra < 1) {
+            console.log("Error, dato errado o cantidad menor que 1")
+            return;
+        }
+        inventario[index].cantidad += compra;
+        console.log("Producto comprado");
+    } else {
+        console.log("Producto no encontrado");
+    }
+}
+
+function vender_producto() {
+    let nombre = prompt("Ingrese el nombre del producto que desea vender");
+    let index = inventario.findIndex(invent =>
+        invent.nombre.toLowerCase() === nombre.toLowerCase()
+    );
+    if (index !== -1) {
+        let venta = parseInt(prompt("Ingrese la cantidad que desea vender"));
+        if (isNaN(venta) || venta < 1) {
+            console.log("Error, dato errado o cantidad menor que 1")
+            return;
+        }
+        if (inventario[index].cantidad < venta) {
+            console.log("No hay cantidad suficiente")
+            return;
+        }
+        inventario[index].cantidad -= venta;
+        console.log("Producto vendido");
+    } else {
+        console.log("Producto no encontrado");
+    }
+}
+
+band = true;
 while (band) {
-    
+
     console.log("Bienvenido al sistema de invetario de la tienda TEC.\n")
     console.log("1. Agregar producto.")
     console.log("2. Editar producto.")
@@ -103,7 +167,7 @@ while (band) {
             break;
         case 2:
             editar_producto();
-            break;  
+            break;
         case 3:
             eliminar_producto();
             break;
@@ -115,10 +179,10 @@ while (band) {
             break;
         case 6:
             vender_producto();
-            break;      
+            break;
         case 7:
             console.log("Saliendo del sistema.\n");
-            band=false;
+            band = false;
             break;
         default:
             console.log("Opción no válida.\n");
