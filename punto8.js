@@ -54,5 +54,73 @@ vender_producto(): Función para vender un producto.
 
 const prompt = require('prompt-sync')();
 
-let prueba = prompt("Test branch");
-console.log(prueba);
+let inventario = [
+    { nombre: "Headset", precio: 100, cantidad: 10 },
+    { nombre: "Laptop", precio: 1000, cantidad: 5 },
+]
+
+function agregar_producto() {
+    let nombre = prompt("Ingrese el nombre del producto: ");
+    let precio = parseFloat(prompt("Ingrese el precio: "));
+    let cantidad = parseInt(prompt("Ingrese la cantidad: "));
+
+    inventario.push({ nombre, precio, cantidad });
+    console.log("Producto agregado.");
+}
+
+function eliminar_producto() {
+    
+}
+
+function listar_productos() {
+    if(inventario.length===0){
+        console.log("No hay productos registrados.");
+        return;
+    }
+    console.log("Lista de productos: ");
+    inventario.forEach(invent => {
+        console.log(`${invent.nombre}, Precio: ${invent.precio}, Cantidad: ${invent.cantidad}`);
+    })
+}
+
+band=true;
+while (band) {
+    
+    console.log("Bienvenido al sistema de invetario de la tienda TEC.\n")
+    console.log("1. Agregar producto.")
+    console.log("2. Editar producto.")
+    console.log("3. Eliminar producto.")
+    console.log("4. Listar productos.")
+    console.log("5. Comprar producto.")
+    console.log("6. Vender producto.")
+    console.log("7. Salir.")
+
+    let menu = parseInt(prompt("Ingrese una opción: "));
+
+    switch (menu) {
+        case 1:
+            agregar_producto();
+            break;
+        case 2:
+            editar_producto();
+            break;  
+        case 3:
+            eliminar_producto();
+            break;
+        case 4:
+            listar_productos();
+            break;
+        case 5:
+            comprar_producto();
+            break;
+        case 6:
+            vender_producto();
+            break;      
+        case 7:
+            console.log("Saliendo del sistema.\n");
+            band=false;
+            break;
+        default:
+            console.log("Opción no válida.\n");
+    }
+}
