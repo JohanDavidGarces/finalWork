@@ -33,10 +33,10 @@ let inventario = [
 ] //Vector con datos de prueba, aquí iré agregando los nuevos productos y aplicando las funciones
 
 function validarNumero(numm) {
-    let numero = parseFloat(prompt(numm));
-    while (isNaN(numero) || numero < 1) {
+    let numero = parseInt(prompt(numm));
+    while (isNaN(numero) || numero <= 0) {
         console.log("Error, dato errado o cantidad menor que 1");
-        numero = parseFloat(prompt(numm));
+        numero = parseInt(prompt(numm));
     }
     return numero;
 } //Esto me permite validar si un dato ingresado si sea un numero y con el while puedo hacer que el usuario siga intentando
@@ -90,8 +90,7 @@ function listar_productos() {
 function comprar_producto() {
     let nombre = prompt("Ingrese el nombre del producto que desea comprar");
     let index = inventario.findIndex(invent =>
-        invent.nombre.toLowerCase() === nombre.toLowerCase()
-    );
+        invent.nombre.toLowerCase() === nombre.toLowerCase());
     if (index !== -1) { // Si el indice es diferente de -1 quiere decir que encontró el producto
         let compra = validarNumero("Ingrese la cantidad que desea comprar"); // Uso la función para validar si es numero
         inventario[index].cantidad += compra; // Tendiendo el indice, aumento la cantidad de producto del inventario
@@ -104,8 +103,7 @@ function comprar_producto() {
 function vender_producto() {
     let nombre = prompt("Ingrese el nombre del producto que desea vender");
     let index = inventario.findIndex(invent =>
-        invent.nombre.toLowerCase() === nombre.toLowerCase()
-    );
+        invent.nombre.toLowerCase() === nombre.toLowerCase());
     if (index !== -1) { // Si el indice es diferente de -1 quiere decir que encontró el producto
         let venta = validarNumero("Ingrese la cantidad que desea vender"); // Uso la función para validar si es numero
         if (inventario[index].cantidad < venta) {
