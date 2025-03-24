@@ -40,7 +40,7 @@ generar_numero(): Función para generar un número aleatorio.
 adivinar_numero(): Función para gestionar el juego de adivinanza. 
 */
 const prompt = require('prompt-sync')() //Para usar prompt
-const listGames = [] //lista donde pondré las victorias y derrotas
+const listGames = [] //lista donde pondré las victorias y derrotas (lo hago constante para realizar un paso por valor y no tener que llamarla )
 function verificar_numero(numero_verificar) {
     while(true){
         if(isNaN(parseInt(numero_verificar))){ //verifica si es un numero
@@ -57,7 +57,7 @@ function juego(){
         adivinar_numero(generar_numero()) //llama las 2 funciones, el generar_numero y lo envia a la función adivinar_numero
         let playAgainYNflag=true; // bandera para verificar que el valor dado sea y ó n
         while(playAgainYNflag){ 
-        let playAgain=prompt("¿Deseas jugar de nuevo? (y/n): ") //pide si quiere jugar de nuevo
+        let playAgain=(prompt("¿Deseas jugar de nuevo? (y/n): ")).toLowerCase() //pide si quiere jugar de nuevo y lo pone en minusculas
         if (playAgain=="y") {
 
             playAgainYNflag = false    
