@@ -35,7 +35,7 @@ let inventario = [
 function validarNumeroFloat(numm) {
     let numero = parseFloat(prompt(numm));
     while (isNaN(numero) || numero <= 0) {
-        console.log("Error, dato errado o cantidad menor-igual a 0");
+        console.log("Error, no se ingresó un entero mayor o igual a 0");
         numero = parseFloat(prompt(numm));
     }
     return numero;
@@ -43,7 +43,7 @@ function validarNumeroFloat(numm) {
 function validarNumeroInt(numm) {
     let numero = parseFloat(prompt(numm));
     while (isNaN(numero) || numero < 0 || numero % 1 !== 0) {
-        console.log("Error, dato errado o cantidad menor que 0");
+        console.log("Error, el dato no es un numero entero mayor o igual a 0");
         numero = parseFloat(prompt(numm));
     }
     return numero;
@@ -91,7 +91,7 @@ function editar_producto() {
                     console.log("Producto actualizado");
                     break;
                 case 2:
-                    let valor2 = prompt("Ingrese el nuevo precio del producto: ");
+                    let valor2 = validarNumeroFloat("Ingrese el nuevo precio del producto: ");
                     inventario[index].precio = valor2; // Igualo el precio del inventario con el precio nuevo    
                     bandEditar = false;
                     console.log("Producto actualizado");
