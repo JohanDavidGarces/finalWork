@@ -32,25 +32,33 @@ let inventario = [
     { nombre: "Laptop", precio: 1000, cantidad: 5 },
 ] //Vector con datos de prueba, aquí iré agregando los nuevos productos y aplicando las funciones
 
-function validarNumero(numm) {
-    let numero = parseInt(prompt(numm));
+function validarNumeroFloat(numm) {
+    let numero = parseFloat(prompt(numm));
     while (isNaN(numero) || numero <= 0) {
-        console.log("Error, dato errado o cantidad menor que 1");
-        numero = parseInt(prompt(numm));
+        console.log("Error, dato errado o cantidad menor-igual a 0");
+        numero = parseFloat(prompt(numm));
     }
     return numero;
-} //Esto me permite validar si un dato ingresado si sea un numero y con el while puedo hacer que el usuario siga intentando
+} //Esto me permite validar si un dato tipo float ingresado si sea un numero y con el while puedo hacer que el usuario siga intentando
+function validarNumeroInt(numm) {
+    let numero = parseFloat(prompt(numm));
+    while (isNaN(numero) || numero < 0 || numero % 1 !== 0) {
+        console.log("Error, dato errado o cantidad menor que 0");
+        numero = parseFloat(prompt(numm));
+    }
+    return numero;
+} //Esto me permite validar si un dato tipo Int ingresado si sea un numero y con el while puedo hacer que el usuario siga intentando
 
 function agregar_producto() {
     let nombre = prompt("Ingrese el nombre del producto: ");
-    let precio = validarNumero("Ingrese el precio: "); // Uso la función para validar si es numero
-    let cantidad = validarNumero("Ingrese la cantidad: "); // Uso la función para validar si es numero
+    let precio = validarNumeroFloat("Ingrese el precio: "); // Uso la función para validar si es numero
+    let cantidad = validarNumeroInt("Ingrese la cantidad: "); // Uso la función para validar si es numero
     inventario.push({ nombre, precio, cantidad }); //Con el push agrego al final de array los nuevos productos
     console.log("Producto agregado.");
 }
 
 function eliminar_producto() {
-    let nombre = prompt("Ingrese el nombre del producto a eliminar");
+    let nombre = prompt("Ingrese el nombre del producto a eliminar: ");
     let index = inventario.findIndex(invent =>
         invent.nombre.toLowerCase() == nombre.toLowerCase()); //Me permite buscar el nombre en el array mediante el findIndex
 
@@ -64,13 +72,35 @@ function eliminar_producto() {
 }
 
 function editar_producto() {
-    let nombre = prompt("Ingrese el nombre del producto a editar");
+    let nombre = prompt("Ingrese el nombre del producto a editar: ");
     let index = inventario.findIndex(invent =>
         invent.nombre.toLowerCase() === nombre.toLowerCase()); // Encuentro el indice en que se encuentra, independientemente si es mayuscula o minuscula
     if (index !== -1) { // Si el indice es diferente de -1 quiere decir que encontró el producto
-        let nombre2 = prompt("Ingrese el nuevo nombre del producto");
-        inventario[index].nombre = nombre2; // Igualo el nombre del inventario con el nombre nuevo
-        console.log("Producto actualizado");
+        let bandEditar = true;
+        while (bandEditar) {// Hago un ciclo y un switch para que me permita consultar qué desea editar el usuario
+            console.log("Ingrese una opción para editar: \n1. Editar nombre\n2. Editar precio\n0. Salir")
+            let menu = parseInt(prompt(""));
+            switch (menu) {
+                case 0:
+                    bandEditar = false;
+                    break;
+                case 1:
+                    let nombre2 = prompt("Ingrese el nuevo nombre del producto: ");
+                    inventario[index].nombre = nombre2; // Igualo el nombre del inventario con el nombre nuevo
+                    bandEditar = false;
+                    console.log("Producto actualizado");
+                    break;
+                case 2:
+                    let valor2 = prompt("Ingrese el nuevo precio del producto: ");
+                    inventario[index].precio = valor2; // Igualo el precio del inventario con el precio nuevo    
+                    bandEditar = false;
+                    console.log("Producto actualizado");
+                    break;
+                default:
+                    console.log("Opción no válida.\n");
+            }
+        }
+
     } else {
         console.log("Producto no encontrado");
     }
@@ -83,16 +113,16 @@ function listar_productos() {
     }
     console.log("Lista de productos: ");
     inventario.forEach(invent => {
-        console.log(`Producto: ${invent.nombre}, Precio: ${invent.precio}, Cantidad: ${invent.cantidad}`); // Mediante un for Each imprimo todo el inventario
+        console.log(`Producto: ${invent.nombre}, Precio: ${invent.precio.toFixed(2)}, Cantidad: ${invent.cantidad}`); // Mediante un for Each imprimo todo el inventario
     })
 }
 
 function comprar_producto() {
-    let nombre = prompt("Ingrese el nombre del producto que desea comprar");
+    let nombre = prompt("Ingrese el nombre del producto que desea comprar: ");
     let index = inventario.findIndex(invent =>
         invent.nombre.toLowerCase() === nombre.toLowerCase());
     if (index !== -1) { // Si el indice es diferente de -1 quiere decir que encontró el producto
-        let compra = validarNumero("Ingrese la cantidad que desea comprar"); // Uso la función para validar si es numero
+        let compra = validarNumeroInt("Ingrese la cantidad que desea comprar: "); // Uso la función para validar si es numero
         inventario[index].cantidad += compra; // Tendiendo el indice, aumento la cantidad de producto del inventario
         console.log("Producto comprado");
     } else {
@@ -100,12 +130,13 @@ function comprar_producto() {
     }
 }
 
-function vender_producto() {
-    let nombre = prompt("Ingrese el nombre del producto que desea vender");
+function vender_producto() {//---------- Cambios meramente esteticos
+    let nombre = prompt("Ingrese el nombre del producto que desea vender: ");
     let index = inventario.findIndex(invent =>
         invent.nombre.toLowerCase() === nombre.toLowerCase());
     if (index !== -1) { // Si el indice es diferente de -1 quiere decir que encontró el producto
-        let venta = validarNumero("Ingrese la cantidad que desea vender"); // Uso la función para validar si es numero
+        console.log(`cantidad de ${nombre} en bodega: ${inventario[index].cantidad}`)
+        let venta = validarNumeroInt("Ingrese la cantidad que desea vender: "); // Uso la función para validar si es numero
         if (inventario[index].cantidad < venta) {
             console.log("No hay cantidad suficiente")
             return;
